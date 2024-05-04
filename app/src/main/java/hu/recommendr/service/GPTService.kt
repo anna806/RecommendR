@@ -2,13 +2,8 @@ package hu.recommendr.service
 
 import com.aallam.openai.api.BetaOpenAI
 import com.aallam.openai.api.chat.*
-import com.aallam.openai.api.model.ModelId
 import com.aallam.openai.client.OpenAI
 import kotlinx.serialization.json.*
-import com.aallam.openai.api.chat.ChatRole
-import com.aallam.openai.api.chat.ToolCall
-import com.aallam.openai.api.chat.chatCompletionRequest
-import com.aallam.openai.api.chat.chatMessage
 import com.aallam.openai.api.core.Role
 import com.aallam.openai.api.http.Timeout
 import com.aallam.openai.api.message.Message
@@ -38,7 +33,7 @@ class ChatGptService(private val apiKey: String, private val threadId: String) {
     }
 
     @OptIn(BetaOpenAI::class)
-    suspend fun asyncFun(threadId: String, message: String): Message {
+    suspend fun askGPT(threadId: String, message: String): Message {
         return coroutineScope {
             val thread = async { openAI.thread(id = ThreadId(threadId)) }
             val response = async {
