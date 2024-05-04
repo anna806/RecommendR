@@ -51,6 +51,7 @@ class ChatGptService(private val apiKey: String, private val threadId: String) {
                 "model": "gpt-4-0125-preview",
                 "messages": [
                     {
+                        "thread_id": "$threadId",
                         "role": "user",
                         "content": "$message"
                     }
