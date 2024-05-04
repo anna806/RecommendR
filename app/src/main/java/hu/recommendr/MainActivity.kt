@@ -79,6 +79,14 @@ fun MainPage(mainViewModel: MainViewModel) {
                 Text("Generate", fontSize = 20.sp, color = Color.White, modifier = Modifier.padding(8.dp))
             }
         }
+        Button(
+            onClick = { mainViewModel.getMessage() },
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF536891))) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(painter = painterResource(id = R.drawable.baseline_autorenew_24), contentDescription = "Generate")
+                Text("Get Message", fontSize = 20.sp, color = Color.White, modifier = Modifier.padding(8.dp))
+            }
+        }
         Spacer(modifier = Modifier.padding(16.dp))
         LazyColumn {
             if (mainUIState.response.value != null) {
