@@ -5,11 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import hu.recommendr.service.ChatGptService
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import org.json.JSONObject
 
 class MainViewModel : ViewModel() {
 
@@ -41,7 +40,14 @@ class MainViewModel : ViewModel() {
     fun getMessage(){
         viewModelScope.launch {
             val response = chatGptService.getMessages()
-            Log.d("MainViewModel", "Response: $response")
+            val jsonResponse = JSONObject(response)
+            val messages = jsonResponse.getJSONArray("data")
+            val firstMessage = messages.getJSONObject(0)
+            val content = firstMessage.getJSONArray("content")
+            val firstContent = content.getJSONObject(0)
+            val text = firstContent.getJSONObject("text")
+            val value = text.getString("value")
+            Log.d("MainViewModel", "First message: $value")
         }
     }
 }

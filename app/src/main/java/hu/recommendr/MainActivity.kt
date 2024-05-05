@@ -3,7 +3,6 @@ package hu.recommendr
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,9 +15,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -79,6 +76,7 @@ fun MainPage(mainViewModel: MainViewModel) {
                 Text("Generate", fontSize = 20.sp, color = Color.White, modifier = Modifier.padding(8.dp))
             }
         }
+        Spacer(modifier = Modifier.padding(16.dp))
         Button(
             onClick = { mainViewModel.getMessage() },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF536891))) {
