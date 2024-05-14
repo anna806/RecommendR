@@ -1,7 +1,6 @@
 package hu.recommendr
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import hu.recommendr.service.ChatGptService
@@ -15,7 +14,8 @@ class MainViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(MainUIState())
     val uiState: StateFlow<MainUIState> = _uiState
     private val chatGptService = ChatGptService(apiKey = ":)",
-        threadId = ":))")
+        threadId = ":))",
+        assistantId = ":)))")
 
     fun onTextChanged(text: String) {
         _uiState.value = _uiState.value.copy(text = text)
@@ -37,9 +37,17 @@ class MainViewModel : ViewModel() {
 
     }
 
+    fun run(){
+        viewModelScope.launch {
+            val response = chatGptService.run()
+            Log.d("MainViewModel", "Response: $response")
+        }
+    }
+
     fun getMessage(){
         viewModelScope.launch {
             val response = chatGptService.getMessages()
+            Log.d("MainViewModel", "firstMessage: $response")
             val jsonResponse = JSONObject(response)
             val messages = jsonResponse.getJSONArray("data")
             val firstMessage = messages.getJSONObject(0)
@@ -47,7 +55,6 @@ class MainViewModel : ViewModel() {
             val firstContent = content.getJSONObject(0)
             val text = firstContent.getJSONObject("text")
             val value = text.getString("value")
-            Log.d("MainViewModel", "First message: $value")
         }
     }
 }
