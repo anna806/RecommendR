@@ -15,9 +15,9 @@ class MainViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUIState())
     val uiState: StateFlow<MainUIState> = _uiState
-    private val chatGptService = ChatGptService(apiKey = ":)",
-        threadId = ":))",
-        assistantId = ":)))")
+    private val chatGptService = ChatGptService(apiKey = "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",
+        threadId = "thread_YtTlBD3LYMDXZv7aTF2w6Jjw",
+        assistantId = "asst_xAw58O6IXiPc9Nlg4dFRu9qA")
 
     fun onTextChanged(text: String) {
         _uiState.value = _uiState.value.copy(text = text)
@@ -29,10 +29,10 @@ class MainViewModel : ViewModel() {
         }
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(text = "")
-            /*val sendResponse = chatGptService.askGPT(message = message)
+            val sendResponse = chatGptService.askGPT(message = message)
             Log.d("MainViewModel", "Response: $sendResponse")
             val runResponse = chatGptService.run()
-            Log.d("MainViewModel", "Response: $runResponse")*/
+            Log.d("MainViewModel", "Response: $runResponse")
             val messageResponse = chatGptService.getMessages()
             Log.d("MainViewModel", "Response: $messageResponse")
             parseMessage(messageResponse, message)
