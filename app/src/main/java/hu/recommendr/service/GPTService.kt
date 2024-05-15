@@ -51,7 +51,7 @@ class ChatGptService(private val apiKey: String, private val threadId: String, p
                 "max_completion_tokens": 100
             }
         """.trimIndent()
-            val url = "https://api.openai.com/v/threads/${threadId}/runs"
+            val url = "https://api.openai.com/v1/threads/${threadId}/runs"
 
             val request = Request.Builder()
                 .url(url)
@@ -65,18 +65,22 @@ class ChatGptService(private val apiKey: String, private val threadId: String, p
     }
 
     suspend fun getMessages(): String {
-        return withContext(Dispatchers.IO) {
-            val url = "https://api.openai.com/v1/threads/${threadId}/messages"
+        try {
+            return withContext(Dispatchers.IO) {
+                val url = "https://api.openai.com/v1/threads/${threadId}/messages"
 
-            val request = Request.Builder()
-                .url(url)
-                .get()
-                .addHeader("Authorization", "Bearer $apiKey")
-                .addHeader("OpenAI-Beta", "assistants=v2")
-                .build()
+                val request = Request.Builder()
+                    .url(url)
+                    .get()
+                    .addHeader("Authorization", "Bearer $apiKey")
+                    .addHeader("OpenAI-Beta", "assistants=v2")
+                    .build()
 
-            client.newCall(request).execute()
-                .use { response -> return@use response.body?.string() ?: "Not found" }
+                client.newCall(request).execute()
+                    .use { response -> return@use response.body?.string() ?: "Not found" }
+            }
+        } catch (e: Exception) {
+            return "Not yet :)"
         }
     }
 

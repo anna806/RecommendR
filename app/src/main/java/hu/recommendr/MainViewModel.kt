@@ -1,11 +1,12 @@
 package hu.recommendr
 
 import android.util.Log
-import androidx.compose.material3.Snackbar
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import hu.recommendr.data.MainUIState
+import hu.recommendr.data.Song
 import hu.recommendr.service.ChatGptService
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -15,9 +16,9 @@ class MainViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUIState())
     val uiState: StateFlow<MainUIState> = _uiState
-    private val chatGptService = ChatGptService(apiKey = "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",
-        threadId = "thread_YtTlBD3LYMDXZv7aTF2w6Jjw",
-        assistantId = "asst_xAw58O6IXiPc9Nlg4dFRu9qA")
+    private val chatGptService = ChatGptService(apiKey = ":)",
+        threadId = ":))",
+        assistantId = ":)))")
 
     fun onTextChanged(text: String) {
         _uiState.value = _uiState.value.copy(text = text)
@@ -28,16 +29,23 @@ class MainViewModel : ViewModel() {
             return
         }
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(text = "")
+            _uiState.value = uiState.value.copy(loading = true, text = "")
+            /*
             val sendResponse = chatGptService.askGPT(message = message)
             Log.d("MainViewModel", "Response: $sendResponse")
             val runResponse = chatGptService.run()
             Log.d("MainViewModel", "Response: $runResponse")
+
+             */
+            val random = (10..15).random()
+            delay(random * 1000L)
+
+            _uiState.value = uiState.value.copy(loading = false)
             val messageResponse = chatGptService.getMessages()
             Log.d("MainViewModel", "Response: $messageResponse")
             parseMessage(messageResponse, message)
-        }
 
+        }
     }
 
     private fun parseMessage(response: String, genre: String) {
@@ -65,25 +73,8 @@ class MainViewModel : ViewModel() {
         _uiState.value = _uiState.value.copy(response = songs)
     }
 
-    fun run(){
-        viewModelScope.launch {
-            val response = chatGptService.run()
-            Log.d("MainViewModel", "Response: $response")
-        }
-    }
-
-    fun getMessage(){
-        viewModelScope.launch {
-            val response = chatGptService.getMessages()
-            Log.d("MainViewModel", "firstMessage: $response")
-            val jsonResponse = JSONObject(response)
-            val messages = jsonResponse.getJSONArray("data")
-            val firstMessage = messages.getJSONObject(0)
-            val content = firstMessage.getJSONArray("content")
-            val firstContent = content.getJSONObject(0)
-            val text = firstContent.getJSONObject("text")
-            val value = text.getString("value")
-        }
+    fun onSongSelected(responseItem: Song) {
+        _uiState.value = _uiState.value.copy(selectedSong = responseItem)
     }
 }
 
