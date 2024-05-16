@@ -2,7 +2,10 @@ package hu.recommendr.service
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
 
 
 class ImageService(private val apiKey: String) {
@@ -14,9 +17,9 @@ class ImageService(private val apiKey: String) {
 
     private val url = "https://api.openai.com/v1/images/generations"
     suspend fun getImage(musicPiece: String): String {
-        /*
+
         return withContext(Dispatchers.IO){
-            val prompt = "Cover image for the music: $musicPiece. No text nor letters."
+            val prompt = "Abstract painting for the music: $musicPiece. No text nor letters."
             val json = """
             {
                 "prompt": "$prompt",
@@ -38,9 +41,7 @@ class ImageService(private val apiKey: String) {
             client.newCall(request).execute()
                 .use { response -> return@use response.body?.string() ?: "Not found" }
         }
-
-         */
-
+    /*
         //imitate a network call and return a placeholder image
         return withContext(Dispatchers.IO){
             //wait for 2 seconds
@@ -58,5 +59,7 @@ class ImageService(private val apiKey: String) {
 
             json
         }
+
+     */
     }
 }
