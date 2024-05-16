@@ -1,9 +1,12 @@
 package hu.recommendr
 
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -40,20 +43,24 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import hu.recommendr.ui.common.ExpandedSongDialog
 import hu.recommendr.ui.common.SongCard
 import hu.recommendr.ui.theme.RecommendRTheme
 
 class MainActivity : ComponentActivity() {
+    companion object {
+        const val STORAGE_PERMISSION_CODE = 100
+    }
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val mainViewModel = MainViewModel()
         setContent {
             RecommendRTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    //color = MaterialTheme.colorScheme.background
                 ) {
                     MainPage(mainViewModel)
                 }
@@ -62,6 +69,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MainPage(mainViewModel: MainViewModel) {

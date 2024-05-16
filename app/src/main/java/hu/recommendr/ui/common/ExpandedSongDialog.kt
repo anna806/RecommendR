@@ -2,7 +2,9 @@ package hu.recommendr.ui.common
 
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -49,6 +51,7 @@ enum class ImageState{
     Loaded
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun ExpandedSongDialog(
     song: Song,
@@ -63,8 +66,8 @@ fun ExpandedSongDialog(
 
     val builder: AlertDialog.Builder = AlertDialog.Builder(context)
     builder
-        .setMessage("Are you sure you want to do this? This costs a lot of money. :(((")
-        .setTitle("???")
+        .setMessage("Are you sure you want to generate image for the song?")
+        .setTitle("Generate image")
         .setPositiveButton("Yes") { _, _ ->
             imageState.value = ImageState.Loading
             Log.d("ExpandedSongDialog", "${song.title} ${song.artist}")
@@ -78,7 +81,7 @@ fun ExpandedSongDialog(
 
 
     Dialog(
-        onDismissRequest = { openDialog.value = false }
+        onDismissRequest = {  }
     ) {
         Card(
             modifier = Modifier
@@ -182,14 +185,22 @@ fun ExpandedSongDialog(
                             painter = rememberAsyncImagePainter(model = R.drawable.outline_save_alt_24),
                             contentDescription = "Download",
                             modifier = Modifier.wrapContentSize()
-                                .clickable { viewModel.downloadImage() }
+                                .clickable {
+                                    if (context != null) {
+                                        viewModel.downloadImage(context)
+                                    }
+                                }
                         )
                         Spacer(modifier = Modifier.padding(8.dp))
                         Icon(
                             imageVector = Icons.Outlined.Share,
                             contentDescription = "Share",
                             modifier = Modifier.wrapContentSize()
-                                .clickable { viewModel.shareImage() }
+                                .clickable {
+                                    if (context != null) {
+                                        viewModel.shareImage(context)
+                                    }
+                                }
                         )
                     }
                 }
@@ -198,6 +209,7 @@ fun ExpandedSongDialog(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Preview
 @Composable
 fun ExpandedSongDialogPreview() {

@@ -1,5 +1,7 @@
 package hu.recommendr.data
 
 data class ImageServiceUIState (
-    val uri: String = "https://placehold.co/1024x1024"
+    val uri: String = "https://placehold.co/1024x1024",
+    val musicPiece : String = ""
+
 )
