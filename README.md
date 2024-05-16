@@ -28,7 +28,7 @@ A kép mentését a 29-es API szint fölött új módszerrel lehet megoldani, é
 
 ## A feladat megoldása
 
-A feladat megoldása a következő linken érhető el: https://github.com/anna806/RecommendR 
+A feladat megoldása a következő linken érhető el: [github.com](https://github.com/anna806/RecommendR).
 
 Az alkalmazás főképernyőjén található egy beviteli mező, ahol meg lehet adni, hogy mi alapján generáljon ajánlásokat az LLM. A nyílra kattintva lehet elindítani a generálást, melynek eredményeképpen egy lista jelenik meg a generált dalokkal. 
 
